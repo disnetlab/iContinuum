@@ -98,7 +98,8 @@ Also, the sample topologies are shown below.
 
 - "host-sflow.yml.j2" file deploys on the kubernetes cluster to send data from each node to sflow-rt.
 
-# Note that the emulator has been tested on Ubuntu 20 LTS, so it is recommended to use this version.
+ -----------------------------------------------------------------------------------------------------------------
+ Note that the emulator has been tested on Ubuntu 20 LTS, so it is recommended to use this version.
 
 
  # ========= How To Use the tool =========
