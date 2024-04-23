@@ -11,7 +11,7 @@ tmux split-window -t my_session -h 'sudo mn --custom example.py,sflow-rt/extras/
 sleep 5
 
 # Create gre tunnel between a mininet switch and kubernetes master/worker node
-echo "creating gre tunnel between a mininet switche and kubernetes master node"
+echo "creating gre tunnel between a mininet switche and kubernetes master/worker node"
 sudo ovs-vsctl add-port s1 int1 -- set Interface int1 type=gre options:remote_ip={{hostvars['master']['ansible_host']}}
 echo ""
 sudo ovs-vsctl add-port s2 int2 -- set Interface int2 type=gre options:remote_ip={{hostvars['worker1']['ansible_host']}}
