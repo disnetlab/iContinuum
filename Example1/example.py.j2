@@ -1,0 +1,39 @@
+"""Custom topology example1
+
+An example of 2 switches and 2 K3s hosts along with 2 mininet hosts
+
+                           k3s host    k3s host     
+                              |          |
+                              |          |
+                              |          |
+           mininet host --- switch --- switch --- mininet host
+
+
+
+Adding the 'topos' dict with a key/value pair to generate our newly defined
+topology enables one to pass in '--topo=mytopo' from the command line.
+"""
+
+from mininet.topo import Topo
+from mininet.net import Mininet
+from mininet.link import TCLink
+
+class MyTopo(Topo):
+    "Simple topology example."
+
+    def build(self):
+        "Create custom topo."	
+    
+        # Add hosts and switches
+        h1 = self.addHost('h1')  
+        h2 = self.addHost('h2') 
+        s1 = self.addSwitch('s1')  
+        s2 = self.addSwitch('s2')  
+        
+  
+        # Add links
+        self.addLink(h1, s1, cls=TCLink, bw=50, delay='5ms')
+        self.addLink(h2, s2, cls=TCLink, bw=50, delay='5ms')   
+        self.addLink(s1, s2, cls=TCLink, bw=50, delay='5ms')   
+
+topos = {'mytopo': (lambda: MyTopo())}

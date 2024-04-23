@@ -1,0 +1,28 @@
+#!/bin/sh
+
+
+# Start a new tmux session named "my_session"
+tmux new-session -d -s my_session
+
+# Split the window horizontally and run the first command in the top pane
+tmux split-window -t my_session -h 'sudo mn --custom example.py,sflow-rt/extras/sflow.py --topo mytopo --mac --switch=ovs,protocols=OpenFlow13 --controller=remote,ip={{onos_ip}}'
+
+# Wait for a few seconds to ensure switches are up and running
+sleep 5
+
+#Create gre tunnel between a mininet switch and kubernetes master node
+echo "creating gre tunnel between a mininet switche and kubernetes master node"
+sudo ovs-vsctl add-port s1 int1 -- set Interface int1 type=gre options:remote_ip={{hostvars['master']['ansible_host']}}
+echo ""
+
+
+#Create gre tunnel between a mininet swicth and kubernetese worker node
+echo "creating gre tunnel between a mininet swicth and kubernetese worker node"
+sudo ovs-vsctl add-port s2 int2 -- set Interface int2 type=gre options:remote_ip={{hostvars['worker1']['ansible_host']}}
+echo ""
+
+
+#Send data of the switch interface in the mininet to the monitoring tool (sFlow-RT)
+echo "sending data of the switch interface in the mininet to the monitoring tool (sFlow-RT)"
+sudo ovs-vsctl -- --id=@sflow create sflow agent=eno1 target="{{sflow_ip}}\:6343" header=128 sampling=64 polling=10 -- set bridge s1 sflow=@sflow
+sudo ovs-vsctl -- --id=@sflow create sflow agent=eno1 target="{{sflow_ip}}\:6343" header=128 sampling=64 polling=10 -- set bridge s2 sflow=@sflow
