@@ -85,9 +85,14 @@ Also, the sample topologies are shown below.
 - "monitor.yml" file has all the configuration for Monitoring tools. We call this as sflow-rt machine during this tutorial.
 
     - Note1- "kubernetes.yml" file has all the configuration for Kubernetes cluster. This file is available in each Example folder due to different topologies for hosts and switches.
+    - 
     - Note2- "example.py.j2" file creates a sample topology through Mininet. This file is available in each Example folder due to different topologies for switches.
-    - Note3- "inventory.ini" file defines the IP address of all VMs and their specific interface{(tap0)- assigned to kubernetes nodes} and also the server names. This file is available in each Example folder due       to different IP addresses and server name for VMs.
+    - 
+    - Note3- "inventory.ini" file defines the IP address of all VMs and their specific interface{(tap0)- assigned to kubernetes nodes} and also the server names. This file is available in each Example folder due       to 
+      different IP addresses and server name for VMs.
+      
     - Note4- "topology.sh.j2" runs the topology defined on "example.py.j2" on mininet machine. This file is available in each Example folder due to different topologies and configuration.
+      
     - Note5- "deployment.yml.j2" file creates the deployment of the application. This file is available in each Example folder due to different application.
 
 - "main.yml" file has all the above mentioned file inside.
@@ -141,15 +146,18 @@ To use the emulator, please follow the steps below.
       
                - If you have Windows terminal, enable Windows Subsystem for Linux (WSL) and then use "sudo apt install ansible"
       
-  3- Create a new directory (folder) in the local terminal and pull all the available files from this repository to that folder. Also, according to the desired topology, you need to select one of the "Example" folder and pull all the codes from that folder to the same     directory.
+  3- Create a new directory (folder) in the local terminal and pull all the available files from this repository to that folder. To create the new directory please follow the below sample.
+  
+               - mkdir sample_folder
 
 # Step2- Modification
 
-Navigate to the folder that all the files are available and follwo the below steps.
+Navigate to the sample_folder that all the files are available and follwo the below steps.
 
-      1- Open "inventory.ini" with an editor such as vim or nano.
+      1- Navigate to Example folders and open "inventory.ini" with an editor such as vim or nano.
       
-      2- Replace IP address and the server name of the VMs with the actual one in inventory.ini. If you combine some VMs (based on step1- Note3), IP address of some nodes are the same. Then, you can just repeat IP address in the specific section.
+      2- Replace IP address and the server name of the VMs with the actual one in inventory.ini. If you combine some VMs (based on step1- Note3), IP address of some nodes are the same. Then, you can just repeat IP 
+          address in the specific section.
       
          - Note1- server name is the username that you can login to the remote VM via ssh. 
          
@@ -160,10 +168,12 @@ Navigate to the folder that all the files are available and follwo the below ste
              - If you wish to change the tap0 IP address of the kubernetes nodes, please make sure that you do not change the subnet range. However, you do not have to change that.
            
        3- Save changes.
+
+       4- Go back to the sample_folderusing cd ..
           
 # Step3- Installation
 
-1- Run ansible playbook with the below command:
+1- Run ansible playbook with one of the below commands based on the desired topology is the Example folders.
 
           - sudo ansible-playbook -i Example1/inventory.ini main.yml -e "example_folder=Example1" --private-key=<Path-To-The-Private-Key>
           
