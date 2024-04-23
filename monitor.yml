@@ -1,0 +1,278 @@
+##installation of Monitoring Tools (sFlow-RT) and all the dependencies
+
+---
+- hosts: sflow_machine
+  become: yes
+  become_method: sudo
+  become_user: root
+  tasks:
+    - name: Update package lists
+      apt:
+        update_cache: yes
+
+    - name: Get home directory of the user
+      shell: "getent passwd {{ ansible_user }} | cut -d: -f6"
+      register: user_home
+
+    - name: Print home directory
+      debug:
+        var: user_home.stdout
+
+
+
+    - name: Install required packages
+      apt:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - gcc
+        - perl
+        - make
+        - terminator
+        - openjdk-11-jdk
+        - git
+        - git-review
+        - zip
+        - curl
+        - unzip
+        - bzip2
+        - python2-dev
+        - python-setuptools
+        - python3-dev
+        - python3-setuptools
+        - python3-pip
+        - xterm
+        - default-jdk
+        - python3
+        - snapd
+
+    - name: Install Docker dependencies
+      apt:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - apt-transport-https
+        - ca-certificates
+        - curl
+        - gnupg
+        - software-properties-common
+        - lsb-release
+
+    - name: Create directory for Docker keyring
+      file:
+        path: /etc/apt/keyrings
+        state: directory
+        mode: '0755'
+
+    - name: Download Docker GPG key
+      get_url:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        dest: /etc/apt/keyrings/docker.gpg
+        mode: '0644'
+
+
+
+    - name: Debug before adding GPG key
+      debug:
+        msg: "Before adding GPG key"
+
+
+    - name: Add Docker GPG key to apt keyring
+      shell: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+
+
+    - name: Debug after adding GPG key
+      debug:
+        msg: "After adding GPG key"
+
+
+    - name: Add Docker repository
+      lineinfile:
+        path: /etc/apt/sources.list.d/docker.list
+        line: "deb https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
+        create: yes
+
+    - name: Update package lists again
+      apt:
+        update_cache: yes
+
+    - name: Install Docker packages
+      apt:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - docker-ce
+        - docker-ce-cli
+        - containerd.io
+
+
+    - name: Add Java environment variables
+      lineinfile:
+        dest: /etc/environment
+        line: |
+          JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+          JRE_HOME=/usr/lib/jvm/java-11-openjdk-amd64/jre
+
+
+    - name: Gather package facts
+      package_facts:
+        manager: apt
+
+
+
+
+    - name: Install Python
+      apt:
+        name: python
+        state: present
+
+
+    - name: Download get-pip.py
+      get_url:
+        url: https://bootstrap.pypa.io/pip/2.7/get-pip.py
+        dest: /tmp/get-pip.py
+      when: ansible_distribution_major_version|int == 16
+
+
+    - name: Install pip for Python 2
+      command: python2 /tmp/get-pip.py
+      when: ansible_distribution_major_version|int == 16
+
+
+    - name: Update Package Manager
+      command: sudo apt update
+
+
+
+    - name: Install python3-pip
+      apt:
+        name: python3-pip
+        state: present
+
+
+    - name: Upgrade pip for Python 3
+      pip:
+        name: pip
+        state: latest
+        executable: pip3
+
+
+    - name: Ensure Docker service is running
+      service:
+        name: docker
+        state: started
+
+
+
+    - name: Install Portainer
+      shell: |
+        sudo docker rm -f portainer
+
+        sudo docker run -d -p 8000:8000 -p 9443:9443 --name portainer --restart=always \
+        -v /var/run/docker.sock:/var/run/docker.sock \
+        -v portainer_data:/data \
+        portainer/portainer-ce:2.9.3
+
+
+
+    - name: Download sFlow-RT tarball
+      get_url:
+        url: http://www.inmon.com/products/sFlow-RT/sflow-rt.tar.gz
+        dest: "{{ user_home.stdout }}/sflow-rt.tar.gz"
+
+
+
+    - name: Create sFlow-RT directory
+      become: yes
+      file:
+        path: "{{ user_home.stdout }}/sflow-rt"
+        state: directory
+
+
+
+
+    - name: Extract sFlow-RT tarball
+      become: yes
+      unarchive:
+        src: "{{ user_home.stdout }}/sflow-rt.tar.gz"
+        dest: "{{ user_home.stdout }}/sflow-rt"
+        remote_src: yes
+        extra_opts: "--strip-components=1"
+
+
+
+    - name: Install required sFlow-RT applications
+      shell: "{{ user_home.stdout }}/sflow-rt/get-app.sh sflow-rt {{ item }}"
+      args:
+        chdir: "{{ user_home.stdout }}/sflow-rt"
+      loop:
+        - browse-metrics
+        - active-routes
+        - browse-drops
+        - browse-flows
+        - ddos-protect
+        - fabric-metrics
+        - ixp-metrics
+        - mininet-dashboard
+        - particle
+        - prometheus
+        - sflow-test
+        - sunburst
+        - topology
+        - trace-flow
+        - world-map
+        - dashboard-example
+
+    - name: Install Java
+      apt:
+        name: openjdk-11-jre-headless
+        state: present
+
+    - name: Debug - Before starting sFlow-RT
+      debug:
+        msg: "About to start sFlow-RT script"
+
+    - name: Start sFlow-RT in the background
+      shell: "nohup {{ user_home.stdout }}/sflow-rt/start.sh > /dev/null 2>&1 &"
+
+
+    - name: Debug - After starting sFlow-RT
+      debug:
+        msg: "sFlow-RT script started successfully"
+
+
+    - name: Create a data directory
+      file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ user_home.stdout }}/data"
+   
+
+
+    - name: Create prometheus.yml file
+      ansible.builtin.template:
+        src: prometheus.yml.j2
+        dest: "{{ user_home.stdout }}/prometheus.yml"
+      vars:
+        user_home: "{{ lookup('env', 'HOME') }}"
+
+
+    - name: Install prometheus as a container
+      shell: |
+        sudo docker rm -f prometheus-sflow
+        sudo docker run -d --user root --name prometheus-sflow --rm -v {{ user_home.stdout }}/data:/prometheus -v {{ user_home.stdout }}/prometheus.yml:/etc/prometheus/prometheus.yml -p 9090:9090 prom/prometheus
+
+
+
+
+    - name: Install grafana as a container
+      shell: |
+        sudo docker rm -f grafana
+        sudo docker run -d -p 3000:3000 --name=grafana grafana/grafana-oss
+
+
+
+
+
+
