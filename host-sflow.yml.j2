@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: host-sflow
+spec:
+  selector:
+    matchLabels:
+      name: host-sflow
+  template:
+    metadata:
+      labels:
+        name: host-sflow
+    spec:
+      hostNetwork: true
+      containers:
+      - name: host-sflow
+        image: sflow/host-sflow:latest
+        env:
+          - name: COLLECTOR
+            value: "{{groups['sflow_machine'][0]}}" 
+          - name: NET
+            value: "host"
+        volumeMounts:
+          - mountPath: /var/run/docker.sock
+            name: docker-sock
+            readOnly: true
+      volumes:
+        - name: docker-sock
+          hostPath:
+            path: /var/run/docker.sock
