@@ -1,19 +1,3 @@
-#This is an Emulation toolkit suitable for edge-to-cloud environment automated by Ansible.
-# An example network topology is shown below.
-
-
-
-                                                     Custom topology example1
-
-                                  An example of 2 switches and 2 K3s hosts along with 2 mininet hosts
-
-                                                       k3s host    k3s host
-                                                           |          |
-                                                           |          |
-                                                           |          |
-                                       mininet host --- switch --- switch --- mininet host
-
-
 # ========= Explanation ========= 
 #It contains 4 main yaml files named "Network Controller" "Network Emulator", "Monitoring Tools", and "Cluster Manager".
 
