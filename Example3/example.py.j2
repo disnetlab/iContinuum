@@ -1,0 +1,75 @@
+"""Custom topology example3
+
+An example of 6 switch and 4 K3s hosts along with 2 mininet hosts
+
+                         k3s host      k3s host
+                            |            |
+                            |            |
+                            |            |
+      mininet host  ----- switch ----- switch ---- mininet host
+                          / |  \       /  | \
+                         /  |   \     /   |  \
+                        /   |    \   /    |   \
+                       /    |     \ /     |    \
+                  switch    |      /\     |    switch
+                       \    |     /  \    |    /
+                        \   |    /    \   |   /
+                         \  |   /      \  |  /
+                          \ |  /        \ | /
+                           swicth ----- swicth
+                            |             |
+                            |             |
+                            |             |
+                        k3s host      k3s host
+
+
+
+
+Adding the 'topos' dict with a key/value pair to generate our newly defined
+topology enables one to pass in '--topo=mytopo' from the command line.
+"""
+
+from mininet.topo import Topo
+from mininet.net import Mininet
+from mininet.link import TCLink
+
+class MyTopo(Topo):
+    "Simple topology example."
+
+    def build(self):
+        "Create custom topo."
+
+        # Add hosts and switches
+        h1 = self.addHost('h1')
+        h2 = self.addHost('h2')
+
+
+
+        s1 = self.addSwitch( 's1' )
+        s2 = self.addSwitch( 's2' )
+        s3 = self.addSwitch( 's3' )
+        s4 = self.addSwitch( 's4' )
+        s5 = self.addSwitch( 's5' )
+        s6 = self.addSwitch( 's6' )
+
+        # Add links
+        self.addLink( h1, s1, cls = TCLink, bw=50, delay= '5ms' )
+        self.addLink( h2, s2, cls = TCLink, bw=50, delay= '5ms')
+
+
+        self.addLink( s2, s1, cls = TCLink, bw=50, delay= '5ms' )
+        self.addLink( s3, s1, cls = TCLink, bw=50 , delay= '5ms')
+        self.addLink( s4, s1, cls = TCLink, bw=50, delay= '5ms')
+        self.addLink( s5, s1, cls = TCLink, bw=50, delay= '5ms')
+
+
+        self.addLink( s3, s4, cls = TCLink, bw=50, delay= '5ms')
+        self.addLink( s6, s4, cls = TCLink, bw=50, delay= '5ms' )
+        self.addLink( s3, s6, cls = TCLink, bw=50 , delay= '5ms')
+
+
+        self.addLink( s5, s2, cls = TCLink, bw=50, delay= '5ms' )
+        self.addLink( s4, s2, cls = TCLink, bw=50, delay= '5ms')
+        self.addLink( s3, s2, cls = TCLink, bw=50, delay= '5ms')
+
+topos = {'mytopo': (lambda: MyTopo())}
