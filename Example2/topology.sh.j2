@@ -16,10 +16,6 @@ sudo ovs-vsctl add-port s1 int1 -- set Interface int1 type=gre options:remote_ip
 echo ""
 sudo ovs-vsctl add-port s2 int2 -- set Interface int2 type=gre options:remote_ip={{hostvars['worker1']['ansible_host']}}
 echo ""
-
-
-# Create gre tunnel between a mininet swicth and kubernetese worker node
-echo "creating gre tunnel between a mininet swicth and kubernetese worker node"
 sudo ovs-vsctl add-port s3 int3 -- set Interface int3 type=gre options:remote_ip={{hostvars['worker2']['ansible_host']}}
 echo ""
 
