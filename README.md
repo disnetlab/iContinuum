@@ -72,7 +72,7 @@ Also, the sample topologies are shown below.
                                                         |             |
                                                    k3s host      k3s host
                                                    
- -----------------------------------------------------------------------------------------------------------------
+
 
 # Please consider the below details regarding the available files in the master branch.
 
@@ -100,7 +100,6 @@ Also, the sample topologies are shown below.
 
 # Note that the emulator has been tested on Ubuntu 20 LTS, so it is recommended to use this version.
 
- -----------------------------------------------------------------------------------------------------------------
 
  # ========= How To Use the tool =========
 
