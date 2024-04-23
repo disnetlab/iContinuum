@@ -185,11 +185,11 @@ Navigate to the folder that all the files are available and follwo the below ste
            
                 - Note- Portainer is installed on both sflow-rt and also onos machine.
                
-           3- Open this URL to login to sflow-rt: "https://localhost:8008"      // This is where sflow-rt is installed
+           3- Open this URL to login to sflow-rt: "http://localhost:8008"      // This is where sflow-rt is installed
            
-           4- Open this URL to login to Prometheous: "https://localhost:9090"   // This is where sflow-rt is installed   
+           4- Open this URL to login to Prometheous: "http://localhost:9090"   // This is where sflow-rt is installed   
            
-           4- Open this URL to login to grafana: "https://localhost:3000"      // This is where sflow-rt is installed     
+           4- Open this URL to login to grafana: "http://localhost:3000"      // This is where sflow-rt is installed     
            
            3- If you wish to have interaction with mininet CLI, the running topology in onos GUI will be stopped and you can start it again based on the selected topology available in mininet machine known as "topology.sh" . // This is where mininet is installed
              
