@@ -1,7 +1,7 @@
 #To use the topology for example1, please follow the below steps.
 
 # ========= Explanation ========= 
-#It contains 4 main yaml files named "Network Controller" "Network Emulator", "Monitoring Tools", and "Cluster Manager".
+#As you can see from the codes, the tool contains 4 main yaml files named "Network Controller" "Network Emulator", "Monitoring Tools", and "Cluster Manager".
 
 #For "Network Controller", we use ONOS controller and you can find "Network Controller" configuration on "onos.yml". We call it onos machine.
 
