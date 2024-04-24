@@ -104,7 +104,7 @@
       get_url:
         url: http://www.inmon.com/products/sFlow-RT/sflow-rt.tar.gz
         dest: "{{ user_home.stdout }}/sflow-rt.tar.gz"
-      
+
 
 
     - name: Create sFlow-RT directory
@@ -112,7 +112,7 @@
       file:
         path: "{{ user_home.stdout }}/sflow-rt"
         state: directory
-      
+
 
 
 
@@ -123,8 +123,32 @@
         dest: "{{ user_home.stdout }}/sflow-rt"
         remote_src: yes
         extra_opts: "--strip-components=1"
-          
-     
+
+
+
+
+    - name: Install required sFlow-RT applications
+      shell: "{{ user_home.stdout }}/sflow-rt/get-app.sh sflow-rt {{ item }}"
+      args:
+        chdir: "{{ user_home.stdout }}/sflow-rt"
+      loop:
+        - browse-metrics
+        - active-routes
+        - browse-drops
+        - browse-flows
+        - ddos-protect
+        - fabric-metrics
+        - ixp-metrics
+        - mininet-dashboard
+        - particle
+        - prometheus
+        - sflow-test
+        - sunburst
+        - topology
+        - trace-flow
+        - world-map
+        - dashboard-example
+
 
     - name: Install Java
       apt:
@@ -137,7 +161,7 @@
 
     - name: Start sFlow-RT in the background
       shell: "nohup {{ user_home.stdout }}/sflow-rt/start.sh > /dev/null 2>&1 &"
-      
+
 
     - name: Debug - After starting sFlow-RT
       debug:
@@ -164,7 +188,7 @@
     - name: Debug - Print inventory file
       debug:
         msg: "{{ lookup('file', '{{ example_folder }}/inventory.ini') }}"
-    
+
     - name: Retrieve IP address of onos_machine
       set_fact:
         onos_ip: "{{ groups['onos_machine'][0] }}"
@@ -190,8 +214,8 @@
         name: tmux
         state: present
 
-   
-    
+
+
     - name: Create topology.sh file and save it on mininet machine
       ansible.builtin.template:
         src: "{{ example_folder }}/topology.sh.j2"
@@ -205,5 +229,3 @@
 
     - name: Start topology in the background
       shell: "nohup {{ user_home.stdout }}/topology.sh > /dev/null 2>&1 &"
-
-
