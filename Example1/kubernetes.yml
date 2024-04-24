@@ -349,7 +349,7 @@
   tasks:
     - name: Create host-sflow.yml file
       ansible.builtin.template:
-        src: "{{ playbook_dir }}/../../host-sflow.yml.j2"
+        src: "{{ playbook_dir }}/../host-sflow.yml.j2"
         dest: "{{ user_home.stdout }}/host-sflow.yml"
       vars:
         user_home: "{{ lookup('env', 'HOME') }}"
