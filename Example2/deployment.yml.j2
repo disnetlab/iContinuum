@@ -15,24 +15,9 @@ spec:
       labels:
         app: microservice1
     spec:
-      nodeName: worker1
       containers:
         - name: nginx
-          image: negin67/m1:v8
-          resources:
-           limits:
-             cpu: "0.5"  # Set CPU limit to 1 core
-             memory: "512Mi"  # Set memory limit to 512 MiB
-           requests:
-             cpu: "0.5"  # Set CPU request to 0.5 cores
-             memory: "512Mi"  # Set memory request to 256 MiB
-
-
-          env:
-            - name: POD_UID
-              valueFrom:
-                fieldRef:
-                  fieldPath: metadata.uid
+          image: negin67/m1:latest
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 5001
@@ -86,24 +71,9 @@ spec:
       labels:
         app: microservice2
     spec:
-      nodeName: worker2
       containers:
         - name: nginx
-          image: negin67/m2:v8
-          resources:
-           limits:
-             cpu: "0.5"  # Set CPU limit to 1 core
-             memory: "512Mi"  # Set memory limit to 512 MiB
-           requests:
-             cpu: "0.5"  # Set CPU request to 0.5 cores
-             memory: "512Mi"  # Set memory request to 256 MiB
-
-
-          env:
-            - name: POD_UID
-              valueFrom:
-                fieldRef:
-                  fieldPath: metadata.uid
+          image: negin67/m2:latest3
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 5002
@@ -156,23 +126,9 @@ spec:
       labels:
         app: microservice3
     spec:
-      nodeName: master
       containers:
         - name: nginx
-          image: negin67/m3-ssd:v8
-          resources:
-           limits:
-             cpu: "0.8"  # Set CPU limit to 1 core
-             memory: "1024Mi"  # Set memory limit to 512 MiB
-           requests:
-             cpu: "0.8"  # Set CPU request to 0.5 cores
-             memory: "1024Mi"  # Set memory request to 256 MiB
-
-          env:
-            - name: POD_UID
-              valueFrom:
-                fieldRef:
-                  fieldPath: metadata.uid
+          image: negin67/m3-ssd:latest
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 80
@@ -225,23 +181,9 @@ spec:
       labels:
         app: microservice4
     spec:
-      nodeName: worker3
       containers:
         - name: nginx
-          image: negin67/m4:v9
-          resources:
-           limits:
-             cpu: "0.5"  # Set CPU limit to 1 core
-             memory: "512Mi"  # Set memory limit to 512 MiB
-           requests:
-             cpu: "0.5"  # Set CPU request to 0.5 cores
-             memory: "512Mi"  # Set memory request to 256 MiB
-
-          env:
-            - name: POD_UID
-              valueFrom:
-                fieldRef:
-                  fieldPath: metadata.uid
+          image: negin67/m4:latest2
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 5004
@@ -260,7 +202,6 @@ spec:
         - name: docker-sock
           hostPath:
             path: /var/run/docker.sock
-
 ---
 apiVersion: v1
 kind: Service
@@ -294,10 +235,9 @@ spec:
       labels:
         app: db
     spec:
-      nodeName: master
       containers:
         - name: nginx
-          image: negin67/db:v9
+          image: negin67/db:latest
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 5005
