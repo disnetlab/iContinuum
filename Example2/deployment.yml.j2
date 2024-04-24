@@ -111,7 +111,7 @@ spec:
           image: sflow/host-sflow:latest
           env:
             - name: COLLECTOR
-              value: {{sflow_ip}}
+              value: {{ groups['sflow_machine'][0] }}
             - name: NET
               value: host
           volumeMounts:
@@ -180,7 +180,7 @@ spec:
           image: sflow/host-sflow:latest
           env:
             - name: COLLECTOR
-              value: {{sflow_ip}}
+              value: {{ groups['sflow_machine'][0] }}
             - name: NET
               value: host
           volumeMounts:
@@ -249,7 +249,7 @@ spec:
           image: sflow/host-sflow:latest
           env:
             - name: COLLECTOR
-              value: {{sflow_ip}}
+              value: {{ groups['sflow_machine'][0] }}
             - name: NET
               value: host
           volumeMounts:
@@ -260,7 +260,7 @@ spec:
         - name: docker-sock
           hostPath:
             path: /var/run/docker.sock
----
+
 ---
 apiVersion: v1
 kind: Service
@@ -305,7 +305,7 @@ spec:
           image: sflow/host-sflow:latest
           env:
             - name: COLLECTOR
-              value: {{sflow_ip}}
+              value: {{ groups['sflow_machine'][0] }}
             - name: NET
               value: host
           volumeMounts:
