@@ -187,6 +187,8 @@ Navigate to the sample_folder that all the files are available and follwo the be
 
 # Step4- Login to the Graphical User Interface (GUI) and Command Line Interface (CLI)
 
+Note- If you install Ubuntu Server, you may need to install "VNC" to be able to have GUI. So make sure to install VNC on your server.
+
   1- Where onos, mininet, sflow-rt are installed, you can Login to the VM (VMs) and follow the belwo steps to access the GUI and CLI.
   
            1- Open this URL to login to the onos GUI: "http://localhost:8181/onos/ui/#/topo2"-  username: onos, password:rocks     // This is where onos is installed
