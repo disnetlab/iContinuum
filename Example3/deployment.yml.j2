@@ -1,0 +1,273 @@
+# microservice1.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: microservice1-deployment
+  labels:
+    app: microservice1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: microservice1
+  template:
+    metadata:
+      labels:
+        app: microservice1
+    spec:	
+      containers:
+        - name: nginx
+          image: negin67/m1:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5001
+        - name: host-sflow-sidecar
+          image: sflow/host-sflow:latest
+          env:
+            - name: COLLECTOR
+              value: {{ groups['sflow_machine'][0] }}     
+            - name: NET
+              value: host
+          volumeMounts:
+            - mountPath: /var/run/docker.sock
+              name: docker-sock
+              readOnly: true
+      volumes:
+        - name: docker-sock
+          hostPath:
+            path: /var/run/docker.sock
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: microservice1-service
+spec:
+  selector:
+    app: microservice1
+  ports:
+    - protocol: TCP
+      port: 5001
+      targetPort: 5001
+  type: LoadBalancer
+
+  
+  
+---
+# microservice2.yaml  
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: microservice2-deployment
+  labels:
+    app: microservice2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: microservice2
+  template:
+    metadata:
+      labels:
+        app: microservice2
+    spec:	
+      containers:
+        - name: nginx
+          image: negin67/m2:latest3
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5002
+        - name: host-sflow-sidecar
+          image: sflow/host-sflow:latest
+          env:
+            - name: COLLECTOR
+              value: {{ groups['sflow_machine'][0] }}     
+            - name: NET
+              value: host
+          volumeMounts:
+            - mountPath: /var/run/docker.sock
+              name: docker-sock
+              readOnly: true
+      volumes:
+        - name: docker-sock
+          hostPath:
+            path: /var/run/docker.sock
+    
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: microservice2-service
+spec:
+  selector:
+    app: microservice2
+  ports:
+    - protocol: TCP
+      port: 5002
+      targetPort: 5002
+  type: LoadBalancer
+
+
+---
+# microservice3.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: microservice3-deployment
+  labels:
+    app: microservice3
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: microservice3
+  template:
+    metadata:
+      labels:
+        app: microservice3
+    spec:	
+      containers:
+        - name: nginx
+          image: negin67/m3-ssd:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+        - name: host-sflow-sidecar
+          image: sflow/host-sflow:latest
+          env:
+            - name: COLLECTOR
+              value: {{ groups['sflow_machine'][0] }}     
+            - name: NET
+              value: host
+          volumeMounts:
+            - mountPath: /var/run/docker.sock
+              name: docker-sock
+              readOnly: true
+      volumes:
+        - name: docker-sock
+          hostPath:
+            path: /var/run/docker.sock
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: microservice3-service
+spec:
+  selector:
+    app: microservice3
+  ports:
+    - protocol: TCP
+      port: 8081
+      targetPort: 80
+  type: LoadBalancer
+  
+  
+---
+# microservice4.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: microservice4-deployment
+  labels:
+    app: microservice4
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: microservice4
+  template:
+    metadata:
+      labels:
+        app: microservice4
+    spec:	
+      containers:
+        - name: nginx
+          image: negin67/m4:latest2
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5004
+        - name: host-sflow-sidecar
+          image: sflow/host-sflow:latest
+          env:
+            - name: COLLECTOR
+              value: {{ groups['sflow_machine'][0] }}     
+            - name: NET
+              value: host
+          volumeMounts:
+            - mountPath: /var/run/docker.sock
+              name: docker-sock
+              readOnly: true
+      volumes:
+        - name: docker-sock
+          hostPath:
+            path: /var/run/docker.sock     
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: microservice4-service
+spec:
+  selector:
+    app: microservice4
+  ports:
+    - protocol: TCP
+      port: 5004
+      targetPort: 5004
+  type: LoadBalancer
+
+
+
+# Central_DB.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db-deployment
+  labels:
+    app: db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db
+  template:
+    metadata:
+      labels:
+        app: db
+    spec:	
+      containers:
+        - name: nginx
+          image: negin67/db:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5005
+        - name: host-sflow-sidecar
+          image: sflow/host-sflow:latest
+          env:
+            - name: COLLECTOR
+              value: {{ groups['sflow_machine'][0] }}     
+            - name: NET
+              value: host
+          volumeMounts:
+            - mountPath: /var/run/docker.sock
+              name: docker-sock
+              readOnly: true
+      volumes:
+        - name: docker-sock
+          hostPath:
+            path: /var/run/docker.sock
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: db-service
+spec:
+  selector:
+    app: db
+  ports:
+    - protocol: TCP
+      port: 5005
+      targetPort: 5005
+  type: LoadBalancer
+  
