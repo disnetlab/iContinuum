@@ -85,9 +85,9 @@ Also, the sample topologies are shown below.
 - "monitor.yml" file has all the configuration for Monitoring tools. We call this as sflow-rt machine during this tutorial.
 
     - Note1- "kubernetes.yml" file has all the configuration for Kubernetes cluster. This file is available in each Example folder due to different topologies for hosts and switches.
-    - 
+      
     - Note2- "example.py.j2" file creates a sample topology through Mininet. This file is available in each Example folder due to different topologies for switches.
-    - 
+     
     - Note3- "inventory.ini" file defines the IP address of all VMs and their specific interface{(tap0)- assigned to kubernetes nodes} and also the server names. This file is available in each Example folder due       to 
       different IP addresses and server name for VMs.
       
@@ -104,7 +104,7 @@ Also, the sample topologies are shown below.
 - "host-sflow.yml.j2" file deploys on the kubernetes cluster to send data from each node to sflow-rt.
 
  -----------------------------------------------------------------------------------------------------------------
- Note that the emulator has been tested on Ubuntu 20 LTS, so it is recommended to use this version.
+ Note that the emulator has been tested on "Ubuntu 20.04 LTS", so it is recommended to use this version.
 
 
  # ========= How To Use the tool =========
@@ -116,9 +116,9 @@ To use the emulator, please follow the steps below.
 
   1- Create Virtual Machines (VMs) to install onos, mininet, sflow-rt, and kubernetes cluster.
   
-      - Note1- While creating VMs, it is highly recommended to configure a unique key-pair for all the VMs.
+      - Note1- While creating VMs, it is highly recommended to configure the same key-pair for all the VMs.
       
-      - Note2- While creating VMs, it is recommended to configure a hostname based on its difinition.Eg. onos, mininet, sflow-rt, etc.
+      - Note2- While creating VMs, it is highly recommended to configure a unique hostname based on its difinition.Eg. onos, mininet, sflow-rt, etc.
       
       - Note3- You are able to use one VMs to install onos, mininet, and sflow-rt, or alternatively you can use 3 different VMs.
       
@@ -131,9 +131,19 @@ To use the emulator, please follow the steps below.
            - It is recommended to configure a hostname for the control-plane as master, and worker nodes as worker1, worker2, etc. 
            - For each worker node, you may consider "2 vCPUs and 4 GB RAM", and for the master node you may consider "4 vCPUs and 8GB RAM".
            
-      - Note5- While creating VMs, configure ssh (TCP port 22) for all the VMs.  
+      - Note5- While creating VMs, configure required ports defined below (If the VMs are in the cloud).
+          - TCP port 22 for SSH
+          
+          - TCP port 8008 for sflow-rt
+          
+          - UDP port 6343 for sflow-rt
+          
+          - TCP/UDP ports for K3s
+          
+              - Ref: https://docs.k3s.io/installation/requirements#:~:text=The%20K3s%20server%20needs%20port,listen%20on%20any%20other%20port.
+              
+              Note- You may need to open some other ports based on your requirements.
       
-      - Note4- Open the reuired ports for all the kubernetes nodes. ref: https://docs.k3s.io/installation/requirements#:~:text=The%20K3s%20server%20needs%20port,listen%20on%20any%20other%20port.
       
 
   2- Install Ansible on the local terminal.
@@ -146,15 +156,15 @@ To use the emulator, please follow the steps below.
       
                - If you have Windows terminal, enable Windows Subsystem for Linux (WSL) and then use "sudo apt install ansible"
       
-  3- Create a new directory (folder) in the local terminal and pull all the available files from this repository to that folder. To create the new directory please follow the below sample.
+  3- Create a new directory (folder) in the local terminal and pull all the available files and folders from master repository to that folder. To create the new directory please follow the below sample.
   
                - mkdir sample_folder
 
 # Step2- Modification
 
-Navigate to the sample_folder that all the files are available and follwo the below steps.
+Based on the desired topology in each Example folder, navigate to the sample_folder and edit the "inventory.ini" file.
 
-      1- Navigate to Example folders and open "inventory.ini" with an editor such as vim or nano.
+      1- Navigate to Example folders and open "inventory.ini" with an editor such as vim or nano. >> Eg. nano Example1/inventory.ini
       
       2- Replace IP address and the server name of the VMs with the actual one in inventory.ini. If you combine some VMs (based on step1- Note3), IP address of some nodes are the same. Then, you can just repeat IP 
           address in the specific section.
@@ -169,7 +179,7 @@ Navigate to the sample_folder that all the files are available and follwo the be
            
        3- Save changes.
 
-       4- Go back to the sample_folderusing cd ..
+       4- Go back to the sample_folder.
           
 # Step3- Installation
 
