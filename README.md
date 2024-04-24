@@ -232,7 +232,8 @@ Navigate to the sample_folder that all the files are available and follwo the be
                
   2- Where master node is installed, you can login to the CLI and check if the nodes and pods(deployment) are ready with the below command.
   
-               -  sudo kubectl get nodes, pods, deployment, service
+               -  sudo kubectl get nodes,pods,deployment,service -o wide
+                  - Now you are able to see all pods, nodes, services and deployment inside the K3s cluster
                
 
 # ========= You're Done ========= 
