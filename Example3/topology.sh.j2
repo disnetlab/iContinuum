@@ -18,8 +18,16 @@ echo ""
 sudo ovs-vsctl add-port s2 int2 -- set Interface int2 type=gre options:remote_ip={{hostvars['worker1']['ansible_host']}}
 echo ""
 
+sudo ovs-vsctl add-port s3 int3 -- set Interface int3 type=gre options:remote_ip={{hostvars['worker2']['ansible_host']}}
+echo ""
+
+sudo ovs-vsctl add-port s4 int4 -- set Interface int4 type=gre options:remote_ip={{hostvars['worker3']['ansible_host']}}
+echo ""
+
 
 #Send data of the switch interface in the mininet to the monitoring tool (sFlow-RT)
 echo "sending data of the switch interface in the mininet to the monitoring tool (sFlow-RT)"
 sudo ovs-vsctl -- --id=@sflow create sflow agent=eno1 target="{{sflow_ip}}\:6343" header=128 sampling=64 polling=10 -- set bridge s1 sflow=@sflow
 sudo ovs-vsctl -- --id=@sflow create sflow agent=eno1 target="{{sflow_ip}}\:6343" header=128 sampling=64 polling=10 -- set bridge s2 sflow=@sflow
+sudo ovs-vsctl -- --id=@sflow create sflow agent=eno1 target="{{sflow_ip}}\:6343" header=128 sampling=64 polling=10 -- set bridge s3 sflow=@sflow
+sudo ovs-vsctl -- --id=@sflow create sflow agent=eno1 target="{{sflow_ip}}\:6343" header=128 sampling=64 polling=10 -- set bridge s4 sflow=@sflow
