@@ -224,6 +224,8 @@ Note- If you install Ubuntu Server, you may need to install "VNC" to be able to 
              6-2- Add new connection, then find Prometheous from the list.
              6-3- for the Prometheus server URL, insert "http://<YOUR_sflow-rt_IP_ADDRESS>:9090".
              6-3- In TSL setting, enable "Skip TLS certificate validation".
+             6-7- Save the changes and test.
+             6-8- Click on Dashboards, Add visualization> 
            
            7- If you wish to have interaction with mininet CLI, the running topology in onos GUI will be stopped and you can start it again based on the selected topology available in mininet machine known as "topology.sh" . // This is where mininet is installed
              
