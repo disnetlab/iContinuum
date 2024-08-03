@@ -167,9 +167,9 @@ To use the emulator, please follow the steps below.
 
 # Step2- Modification
 
-Based on the desired topology in each Example folder, navigate to the sample_folder and edit the "inventory.ini" file.
+Based on the desired topology in each Example folder, edit the inventory file of that sample_folder.
 
-      1- Navigate to Example folders and open "inventory.ini" with an editor such as vim or nano. >> Eg. nano Example1/inventory.ini
+      1- Eg. nano Example1/inventory.ini
       
       2- Replace IP address and the server name of the VMs with the actual one in inventory.ini. If you combine some VMs (based on step1- Note3), IP address of some nodes are the same. Then, you can just repeat IP 
           address in the specific section.
@@ -180,15 +180,13 @@ Based on the desired topology in each Example folder, navigate to the sample_fol
          
          - Note2- No other changes need to be done in the inventory.ini.
          
-             - If you wish to change the tap0 IP address of the kubernetes nodes, please make sure that you do not change the subnet range. However, you do not have to change that.
+             - If you wish to change the tap0 IP address of the kubernetes nodes, please make sure that you do not change the subnet range. However, you can keep the current configuration for that.
            
        3- Save changes.
-
-       4- Go back to the sample_folder.
           
 # Step3- Installation
 
-1- Run ansible playbook with one of the below commands based on the desired topology is the Example folders.
+1- Run ansible playbook with one of the below commands based on the desired topology you previousely selected among the the Example folders and edited its inventory file.
 
           - sudo ansible-playbook -i Example1/inventory.ini main.yml -e "example_folder=Example1" --private-key=<Path-To-The-Private-Key>
           
@@ -220,11 +218,12 @@ Note- If you install Ubuntu Server, you may need to install "VNC" to be able to 
            
            4- Open this URL to login to Prometheous: "http://localhost:9090"   // This is where sflow-rt is installed   
            
-           4- Open this URL to login to grafana: "http://localhost:3000"      // This is where sflow-rt is installed     
+           4- Open this URL to login to grafana: "http://localhost:3000"    #You will be asked to set a new password.    // This is where sflow-rt is installed     
            
            3- If you wish to have interaction with mininet CLI, the running topology in onos GUI will be stopped and you can start it again based on the selected topology available in mininet machine known as "topology.sh" . // This is where mininet is installed
              
-             # Note- You do not need to do this step . That is just FYI if the topolgy has been reseted.
+             # Note- You are not required
+             to do this step . That is just FYI if the topolgy has been reseted.
               
                - Firstly, navigate to the home directory and find the file named "topology.sh" , then open the file.
                
