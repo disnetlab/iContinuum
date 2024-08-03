@@ -159,10 +159,11 @@ To use the emulator, please follow the steps below.
       
                - If you have Windows terminal, enable Windows Subsystem for Linux (WSL) and then use "sudo apt install ansible"
       
-  3- Create a new directory (folder) in the local terminal and pull all the available files and folders from master repository to that folder. To create the new directory please follow the below sample.
+  3- Create a new directory (folder) in the local terminal and pull all the available files and folders from master repository to that folder. To do that, please follow the below steps.
   
                - mkdir sample_folder
                - git clone https://github.com/disnetlab/iContinuum
+               - cd iContinuum
 
 # Step2- Modification
 
