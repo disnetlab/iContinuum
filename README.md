@@ -162,6 +162,7 @@ To use the emulator, please follow the steps below.
   3- Create a new directory (folder) in the local terminal and pull all the available files and folders from master repository to that folder. To create the new directory please follow the below sample.
   
                - mkdir sample_folder
+               - git clone https://github.com/disnetlab/iContinuum
 
 # Step2- Modification
 
