@@ -206,21 +206,26 @@ Note- If you install Ubuntu Server, you may need to install "VNC" to be able to 
   
            1- Open this URL to login to the onos GUI: "http://localhost:8181/onos/ui/#/topo2"-  username: onos, password:rocks     // This is where onos is installed
            
-           3- If you wish to have interaction with onos CLI use this command : "ssh -p 8101 karaf@<IP_Address_of_onos>"  -  password is "karaf"    // This is where onos is installed
+           2- If you wish to have interaction with onos CLI use this command : "ssh -p 8101 karaf@<IP_Address_of_onos>"  -  password is "karaf"    // This is where onos is installed
            
                 - Note- Replace the actual IP address of the onos machine with <IP_Address_of_onos> 
                
-           2- Open this URL to login to Portainer to see the containers:  "https://localhost:9443"    #You will be asked to set a new password.     // This is where onos machine and also sflow-rt are installed
+           3- Open this URL to login to Portainer to see the containers:  "https://localhost:9443"    #You will be asked to set a new password.     // This is where onos machine and also sflow-rt are installed
            
                 - Note- Portainer is installed on both sflow-rt and also onos machine.
                
-           3- Open this URL to login to sflow-rt: "http://localhost:8008"      // This is where sflow-rt is installed
+           4- Open this URL to login to sflow-rt: "http://localhost:8008"      // This is where sflow-rt is installed
            
-           4- Open this URL to login to Prometheous: "http://localhost:9090"   // This is where sflow-rt is installed   
+           5- Open this URL to login to Prometheous: "http://localhost:9090"   // This is where sflow-rt is installed   
            
-           4- Open this URL to login to grafana: "http://localhost:3000"    #You will be asked to set a new password.    // This is where sflow-rt is installed     
+           6- Open this URL to login to grafana: "http://localhost:3000"    #You will be asked to set a new password.  Curent user/pass is "admin"  // This is where sflow-rt is installed   
+           Note- in order to configure grafana, please follow the below steps:
+             6-1- When logged in to the dashboard, click on connections
+             6-2- Add new connection, then find Prometheous from the list.
+             6-3- for the Prometheus server URL, insert "http://<YOUR_sflow-rt_IP_ADDRESS>:9090".
+             6-3- In TSL setting, enable "Skip TLS certificate validation".
            
-           3- If you wish to have interaction with mininet CLI, the running topology in onos GUI will be stopped and you can start it again based on the selected topology available in mininet machine known as "topology.sh" . // This is where mininet is installed
+           7- If you wish to have interaction with mininet CLI, the running topology in onos GUI will be stopped and you can start it again based on the selected topology available in mininet machine known as "topology.sh" . // This is where mininet is installed
              
              # Note- You are not required
              to do this step . That is just FYI if the topolgy has been reseted.
