@@ -131,7 +131,7 @@ To use the emulator, please follow the steps below.
            
       - Note4- Kubernetes cluster is a group of VMs acting as kubernetes nodes. 
       
-           - It is recommended to configure a hostname for the control-plane as master, and worker nodes as worker1, worker2, etc. 
+           - You are required to configure a unique hostname for the kubernetes nodes. It is recommended to name the control-plane as master, and worker nodes as worker1, worker2, etc. 
            - For each worker node, you may consider "2 vCPUs and 4 GB RAM", and for the master node you may consider "4 vCPUs and 8GB RAM".
            
       - Note5- While creating VMs, configure required ports defined below (If the VMs are in the cloud).
