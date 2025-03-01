@@ -1,7 +1,9 @@
 # iContinuum: An Emulation Toolkit for Intent-Based Computing Across the Edge-to-Cloud Continuum
 
 Please find the full paper here: https://ieeexplore.ieee.org/abstract/document/10643932
+
 https://nzjohng.github.io/publications/papers/cloud2024.pdf
+
 https://www.adelnadjarantoosi.info/pdf/CLOUD2024.pdf
 
 
