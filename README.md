@@ -188,6 +188,8 @@ Based on the desired topology in each Example folder, edit the inventory file of
              ** Important Note- If you are using a VPN and suspect an IP conflict between the tap0 interface and the VPN network, you may assign a different CIDR block to the tap0 interface. However, the new CIDR range must be consistent across all Mininet hosts to maintain connectivity.
             * If you modify this range, you must manually update it in the Mininet topology.
             * Open example.py.j2 inside the Example folder.
+                - Eg. nano Example1/example.py.j2
+                
             * Locate the section where hosts are defined and specify the new CIDR range to prevent Mininet from assigning the default 10.0.0.0/8 subnet.
             * Ensure that the tap0 interface does not have any conflicting IP addresses. To avoid conflicts, leave a gap between assigned IPs and ensure there is no overlap with other network addresses in use.
             
