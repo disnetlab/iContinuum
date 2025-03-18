@@ -182,10 +182,25 @@ Based on the desired topology in each Example folder, edit the inventory file of
          
              - Eg. Considering this command "ssh ubuntu@192.168.56.123", the server name is "ubuntu".
          
-         - Note2- No other changes need to be done in the inventory.ini.
+         - Note2-No other changes are required in the inventory.ini file unless you encounter a special circumstance described below.
          
-             - If you wish to change the tap0 IP address of the kubernetes nodes, please make sure that you do not change the subnet range. However, you can keep the current configuration for that.
-           
+             - If you need to modify the tap0 IP address of the Kubernetes nodes, make sure about the subnet range. Mininet assigns a default subnet of 10.0.0.0/8 to the host. You can keep the current configuration unless there is an IP conflict in your network, such as when using a VPN.
+             ** Important Note- If you are using a VPN and suspect an IP conflict between the tap0 interface and the VPN network, you may assign a different CIDR block to the tap0 interface. However, the new CIDR range must be consistent across all Mininet hosts to maintain connectivity.
+            * If you modify this range, you must manually update it in the Mininet topology.
+            * Open example.py.j2 inside the Example folder.
+            * Locate the section where hosts are defined and specify the new CIDR range to prevent Mininet from assigning the default 10.0.0.0/8 subnet.
+            * Ensure that the tap0 interface does not have any conflicting IP addresses. To avoid conflicts, leave a gap between assigned IPs and ensure there is no overlap with other network addresses in use.
+            
+            Example Change:
+            
+                # Before: Default Mininet host definition
+                h1 = self.addHost('h1')
+                h2 = self.addHost('h2')
+
+                # After: Assigning a custom IP range (e.g., 192.168.1.0/24)
+                h1 = self.addHost('h1', ip='192.168.1.1/24')
+                h2 = self.addHost('h2', ip='192.168.1.2/24')
+
        3- Save changes.
           
 # Step3- Installation
